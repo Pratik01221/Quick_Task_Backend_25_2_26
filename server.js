@@ -1,25 +1,22 @@
 require("dotenv").config();
 
 const express = require("express");
-const mongoose = require("mongoose");
 const cors = require("cors");
+const ConnectDB = require("../config/db");
 
-const authRoutes = require("./routes/auth");
-const bookingRoutes = require("./routes/Bookings");
-const providerRoutes = require("./routes/Providers");
-const paymentRoutes = require("./routes/paymentRoutes");
-const ConnectDB = require("./config/db");
+const authRoutes = require("../routes/auth");
+const bookingRoutes = require("../routes/Bookings");
+const providerRoutes = require("../routes/Providers");
+const paymentRoutes = require("../routes/paymentRoutes");
+
 const app = express();
 
 /* ===== Middleware ===== */
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: true }));
 
-
 app.use(cors({
-  // origin: "https://q-frontend-rose.vercel.app",
-  // origin:"localhost:3000/api",
-  origin:"https://quick-task-frontend-25-2-26.vercel.app/",
+  origin: "https://quick-task-frontend-25-2-26.vercel.app", // ❌ removed trailing slash
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true
@@ -27,7 +24,6 @@ app.use(cors({
 
 /* ===== Database ===== */
 ConnectDB();
-
 
 /* ===== Routes ===== */
 app.use("/api/auth", authRoutes);
@@ -44,8 +40,7 @@ app.use((err, req, res, next) => {
   console.error(err);
   res.status(500).json({ error: "Internal Server Error" });
 });
-app.listen(process.env.PORT,()=>{
-  console.log("server is running on ",process.env.PORT)
-})
+
+ 
 
 module.exports = app;
