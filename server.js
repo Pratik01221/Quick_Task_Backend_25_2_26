@@ -26,12 +26,12 @@ app.use(cors({
 ConnectDB();
 
 /* ===== Routes ===== */
-app.use("/api/auth", authRoutes);
-app.use("/api/bookings", bookingRoutes);
-app.use("/api/providers", providerRoutes);
-app.use("/api/payments", paymentRoutes);
+app.use("/auth", authRoutes);
+app.use("/bookings", bookingRoutes);
+app.use("/providers", providerRoutes);
+app.use("/payments", paymentRoutes);
 
-app.get("/api/health", (req, res) => {
+app.get("/health", (req, res) => {
   res.json({ status: "ok" });
 });
 
