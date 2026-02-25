@@ -18,7 +18,8 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(cors({
   // origin: "https://q-frontend-rose.vercel.app",
-  origin:"localhost:3000/api",
+  // origin:"localhost:3000/api",
+  origin:"https://quick-task-frontend-25-2-26.vercel.app/",
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true
