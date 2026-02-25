@@ -1,0 +1,50 @@
+require("dotenv").config();
+
+const express = require("express");
+const mongoose = require("mongoose");
+const cors = require("cors");
+
+const authRoutes = require("./routes/auth");
+const bookingRoutes = require("./routes/Bookings");
+const providerRoutes = require("./routes/Providers");
+const paymentRoutes = require("./routes/paymentRoutes");
+const ConnectDB = require("./config/db");
+const app = express();
+
+/* ===== Middleware ===== */
+app.use(express.json({ limit: "50mb" }));
+app.use(express.urlencoded({ extended: true }));
+
+
+app.use(cors({
+  // origin: "https://q-frontend-rose.vercel.app",
+  origin:"localhost:3000/api",
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true
+}));
+
+/* ===== Database ===== */
+ConnectDB();
+
+
+/* ===== Routes ===== */
+app.use("/api/auth", authRoutes);
+app.use("/api/bookings", bookingRoutes);
+app.use("/api/providers", providerRoutes);
+app.use("/api/payments", paymentRoutes);
+
+app.get("/api/health", (req, res) => {
+  res.json({ status: "ok" });
+});
+
+/* ===== Error Handler ===== */
+app.use((err, req, res, next) => {
+  console.error(err);
+  res.status(500).json({ error: "Internal Server Error" });
+});
+app.listen(process.env.PORT,()=>{
+  console.log("server is running on ",process.env.PORT)
+})
+
+module.exports = app;
